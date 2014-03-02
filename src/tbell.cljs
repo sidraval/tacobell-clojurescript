@@ -1,21 +1,21 @@
 (ns TB)
 
 (def possible-words
-  {:preword ["Crunchy " "Cheesy "]
-   :prefix ["Gor" "Enchi"]
-   :suffix ["rito " "dita "]
-   :postword ["Pizza" "Salad"]})
+  {:preword ["Crunchy " "Cheesy " "Double Decker " "7 Layer " "1/2 lb " "Spicy " "Beefy " "Doritos " "Cantina " "Hard " "Crispy " "Volcano " "Supreme " "Fresco " "Soft " "Baja " "Fiesta " "Mexican " "Zesty " "Stuft " "XXL "]
+   :prefix ["Gor" "Enchi" "Nacho" "Cha" "Mexi" "Quesa" "Soft" "Hard" "Steak"]
+   :suffix ["rito " "dita " "grande " "ito " "lupa " "melt " "wrap " "dilla "]
+   :postword ["Pizza" "Salad" "Roll-up" "Griller" "Bowl" "Taco" "Supreme" "Crunch" "Salad" "Taquito"]})
 
-(defn change-element [el val]
-  (let [el (.getElementById js/document el)]
-    (set! (. el -innerHTML) val)))
+(defn dom-el [selector] (.getElementById js/document selector))
 
-(defn test-func []
+(defn change-element [selector val] (set! (. (dom-el selector) -innerHTML) val))
+
+(defn replace-word []
   (this-as that (set! (. that -innerHTML)
                     (rand-nth ((keyword (. that -id)) possible-words)))))
 
 (defn bindClicks [selector]
-  (.addEventListener (.getElementById js/document selector) "click" test-func))
+  (.addEventListener (dom-el selector) "click" replace-word))
 
 (doseq [selector ["preword" "prefix" "suffix" "postword"]]
   (bindClicks selector) (change-element selector (rand-nth ((keyword selector) possible-words))))
