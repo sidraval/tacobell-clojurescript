@@ -11,8 +11,14 @@
 (defn change-element [selector val] (set! (. (dom-el selector) -innerHTML) val))
 
 (defn replace-word []
-  (this-as that (set! (. that -innerHTML)
-                    (rand-nth ((keyword (. that -id)) possible-words)))))
+  (this-as that
+    (loop [selector (. that -id)
+           el (dom-el selector)
+           new-word (rand-nth ((keyword selector) possible-words))]
+
+      (if (= (. el -innerText) new-word)
+        (recur selector el (rand-nth ((keyword selector) possible-words)))
+        (set! (. el -innerHTML) new-word)))))
 
 (defn bindClicks [selector]
   (.addEventListener (dom-el selector) "click" replace-word))
