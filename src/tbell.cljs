@@ -25,3 +25,9 @@
 
 (doseq [selector ["preword" "prefix" "suffix" "postword"]]
   (bindClicks selector) (change-element selector (rand-nth ((keyword selector) possible-words))))
+
+(defn initialize []
+  (doseq [selector ["preword" "prefix" "suffix" "postword"]]
+    (bindClicks selector) (change-element selector (rand-nth ((keyword selector) possible-words)))))
+
+(initialize)
